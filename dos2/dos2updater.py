@@ -3,7 +3,7 @@ import json
 import shutil
 from distutils.dir_util import copy_tree
 from os import listdir
-from os.path import isfile, join 
+from os.path import isfile, join
 from pathlib import Path
 import ftplib
 
@@ -17,9 +17,11 @@ password = secrets['password']
 
 
 print("Copying latest gamefiles to local transfer folder...\n")
+
 gamefilespath = secrets['filepath']
 latestgamefiles = str(sorted(Path(gamefilespath).iterdir(), key=os.path.getmtime, reverse=True)[0])
 gamefilefoldername = os.path.basename(os.path.normpath(latestgamefiles))
+
 
 try:
     os.mkdir(f'./{gamefilefoldername}')
@@ -60,7 +62,16 @@ try:
             ftp.retrbinary("RETR " + f, open(f, 'wb').write)
         except:
             pass
-        
+
+    try:
+        list = [f for f in listdir('.') if isfile(join('.', f))]
+        for f in list:
+            if "QuickSave" in f:
+                shutil.move(f, 'backups-ftp')
+            else:
+                pass
+    except Exception as e:
+        print(e)
 
 except:
     print("No QuickSave folder to backup available on ftp server!\n")
@@ -97,7 +108,4 @@ for f in gamefiles:
 ftp.quit()
 
 shutil.rmtree(f'./{gamefilefoldername}')
-
 print("Done! Gamefiles on ftp server updated.")
-
-
