@@ -1,6 +1,6 @@
 # dos2updater
 
-python script to update most recent divinity original sin 2 gamesave on ftp server.
+python script to update the most recent local divinity original sin 2 gamesave on ftp server.
 
 quick setup guide:
 - create "config" directory in same directory as the python script.
